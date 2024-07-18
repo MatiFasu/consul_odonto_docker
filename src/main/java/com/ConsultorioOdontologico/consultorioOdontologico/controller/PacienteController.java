@@ -5,6 +5,7 @@ import com.ConsultorioOdontologico.consultorioOdontologico.model.Paciente;
 import com.ConsultorioOdontologico.consultorioOdontologico.service.IPacienteService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class PacienteController {
     @Autowired
     private IPacienteService pacServ;
     
+    @CrossOrigin("http://127.0.0.1:5500")
     @GetMapping("/paciente/traer")
     public List<Paciente> getPacientes() {
         return pacServ.getPacientes();

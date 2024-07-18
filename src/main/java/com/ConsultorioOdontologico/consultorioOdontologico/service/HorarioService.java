@@ -19,8 +19,11 @@ public class HorarioService implements IHorarioService {
     }
 
     @Override
-    public void saveHorario(Horario h) {
-        horarioRepo.save(h);
+    public Horario saveHorario(Horario h) {
+        
+        Horario hor = horarioRepo.save(h);
+        
+        return hor;
     }
 
     @Override

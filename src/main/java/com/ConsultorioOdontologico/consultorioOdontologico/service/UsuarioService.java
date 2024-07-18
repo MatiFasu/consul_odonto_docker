@@ -1,8 +1,10 @@
 
 package com.ConsultorioOdontologico.consultorioOdontologico.service;
 
+import com.ConsultorioOdontologico.consultorioOdontologico.dto.LoginDto;
 import com.ConsultorioOdontologico.consultorioOdontologico.model.Usuario;
 import com.ConsultorioOdontologico.consultorioOdontologico.repository.IUsuarioRepository;
+import com.ingeneo.app.utils.hash.BCrypt;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,12 @@ public class UsuarioService implements IUsuarioService{
     }
 
     @Override
-    public void saveUsuario(Usuario u) {
-        usuRepo.save(u);
+    public Usuario saveUsuario(Usuario u) {
+        
+        u.setContrasenia(BCrypt.hashpw(u.getContrasenia(), BCrypt.gensalt()));
+        Usuario usu = usuRepo.save(u);
+        
+        return usu;
     }
 
     @Override
@@ -36,6 +42,23 @@ public class UsuarioService implements IUsuarioService{
     @Override
     public void editUsuario(Usuario u) {
         this.saveUsuario(u);
+    }
+
+    @Override
+    public int validarUsuario(LoginDto l) {
+        int valido = 0;
+        
+        List<Usuario> usuarios = this.getUsuario();
+        
+        for (Usuario usu : usuarios) {
+            String pass = usu.getContrasenia();
+            
+            if(usu.getUsuario().equals(l.getUsername()) && BCrypt.checkpw(l.getContrasenia(), pass)) {
+                valido = 1;
+            }
+        }
+        
+        return valido;
     }
     
 }

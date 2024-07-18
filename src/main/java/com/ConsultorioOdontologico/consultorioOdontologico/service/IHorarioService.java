@@ -8,7 +8,7 @@ public interface IHorarioService {
 
     public List<Horario> getHorarios();
     
-    public void saveHorario(Horario h);
+    public Horario saveHorario(Horario h);
     
     public void deleteHorario(Long id);
     
